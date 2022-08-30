@@ -89,7 +89,6 @@ func main() {
 	}
 
 	h, err := createHammer()
-
 	if err != nil {
 		exitWithMsg(err.Error())
 	}
@@ -98,7 +97,33 @@ func main() {
 		exitWithMsg(err.Error())
 	}
 
-	run(h)
+	if h.IterationStrategy == "sequential" {
+		fmt.Println("[")
+		for i := 0; i < len(h.Scenario.Scenario); i++ {
+			newH := types.Hammer{
+				TotalReqCount:     h.TotalReqCount,
+				TestDuration:      h.TestDuration,
+				LoadType:          h.LoadType,
+				TimeRunCountMap:   h.TimeRunCountMap,
+				Proxy:             h.Proxy,
+				ReportDestination: h.ReportDestination,
+				Others:            h.Others,
+				Scenario: types.Scenario{
+					Scenario: []types.ScenarioItem{
+						h.Scenario.Scenario[i],
+					},
+				},
+			}
+			run(newH)
+			if i < len(h.Scenario.Scenario)-1 {
+				fmt.Println(",")
+			}
+		}
+		fmt.Println("]")
+	} else {
+		run(h)
+	}
+
 }
 
 func createHammer() (h types.Hammer, err error) {

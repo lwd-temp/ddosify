@@ -36,13 +36,14 @@ const (
 	LoadTypeWaved       = "waved"
 
 	// Default Values
-	DefaultReqCount   = 100
-	DefaultLoadType   = LoadTypeLinear
-	DefaultDuration   = 10
-	DefaultTimeout    = 5
-	DefaultProtocol   = ProtocolHTTPS
-	DefaultMethod     = http.MethodGet
-	DefaultOutputType = "stdout" // TODO: get this value from report.OutputTypeStdout when import cycle resolved.
+	DefaultReqCount          = 100
+	DefaultLoadType          = LoadTypeLinear
+	DefaultDuration          = 10
+	DefaultTimeout           = 5
+	DefaultProtocol          = ProtocolHTTPS
+	DefaultMethod            = http.MethodGet
+	DefaultIterationStrategy = "flow"
+	DefaultOutputType        = "stdout" // TODO: get this value from report.OutputTypeStdout when import cycle resolved.
 )
 
 var loadTypes = [...]string{LoadTypeLinear, LoadTypeIncremental, LoadTypeWaved}
@@ -58,6 +59,9 @@ type TimeRunCount []struct {
 type Hammer struct {
 	// Total request count
 	TotalReqCount int
+
+	// ["sequential", "flow"], default: "flow"
+	IterationStrategy string
 
 	// Type of the load.
 	LoadType string

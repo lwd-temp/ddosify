@@ -96,22 +96,24 @@ func (s *step) UnmarshalJSON(data []byte) error {
 }
 
 type JsonReader struct {
-	ReqCount     int          `json:"request_count"`
-	LoadType     string       `json:"load_type"`
-	Duration     int          `json:"duration"`
-	TimeRunCount timeRunCount `json:"manual_load"`
-	Steps        []step       `json:"steps"`
-	Output       string       `json:"output"`
-	Proxy        string       `json:"proxy"`
+	ReqCount          int          `json:"request_count"`
+	LoadType          string       `json:"load_type"`
+	Duration          int          `json:"duration"`
+	TimeRunCount      timeRunCount `json:"manual_load"`
+	IterationStrategy string       `json:"strategy"`
+	Steps             []step       `json:"steps"`
+	Output            string       `json:"output"`
+	Proxy             string       `json:"proxy"`
 }
 
 func (j *JsonReader) UnmarshalJSON(data []byte) error {
 	type jsonReaderAlias JsonReader
 	defaultFields := &jsonReaderAlias{
-		ReqCount: types.DefaultReqCount,
-		LoadType: types.DefaultLoadType,
-		Duration: types.DefaultDuration,
-		Output:   types.DefaultOutputType,
+		ReqCount:          types.DefaultReqCount,
+		LoadType:          types.DefaultLoadType,
+		Duration:          types.DefaultDuration,
+		IterationStrategy: types.DefaultIterationStrategy,
+		Output:            types.DefaultOutputType,
 	}
 
 	err := json.Unmarshal(data, defaultFields)
@@ -174,6 +176,7 @@ func (j *JsonReader) CreateHammer() (h types.Hammer, err error) {
 	// Hammer
 	h = types.Hammer{
 		TotalReqCount:     j.ReqCount,
+		IterationStrategy: j.IterationStrategy,
 		LoadType:          strings.ToLower(j.LoadType),
 		TestDuration:      j.Duration,
 		TimeRunCountMap:   types.TimeRunCount(j.TimeRunCount),
