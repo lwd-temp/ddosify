@@ -108,7 +108,7 @@ func (s ScenarioItemReport) MarshalJSON() ([]byte, error) {
 }
 
 var printJson = func(j []byte) {
-	fmt.Println(string(j))
+	fmt.Print(string(j))
 }
 
 var strKeyToJsonKey = map[string]string{

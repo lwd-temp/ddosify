@@ -98,7 +98,7 @@ func main() {
 	}
 
 	if h.IterationStrategy == "sequential" {
-		fmt.Println("[")
+		fmt.Print("[")
 		for i := 0; i < len(h.Scenario.Scenario); i++ {
 			newH := types.Hammer{
 				TotalReqCount:     h.TotalReqCount,
@@ -116,10 +116,10 @@ func main() {
 			}
 			run(newH)
 			if i < len(h.Scenario.Scenario)-1 {
-				fmt.Println(",")
+				fmt.Print(",")
 			}
 		}
-		fmt.Println("]")
+		fmt.Print("]")
 	} else {
 		run(h)
 	}
